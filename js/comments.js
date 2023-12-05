@@ -35,7 +35,7 @@ const sliceComments = (comments) => {
 
 commentLoader.addEventListener('click', () => {
   displayedComments =
-    displayedComments + 5 > commentsList.length
+    displayedComments + 5 >= commentsList.length
       ? commentsList.length
       : displayedComments + 5;
   sliceComments(commentsList);

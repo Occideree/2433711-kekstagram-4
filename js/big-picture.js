@@ -6,7 +6,7 @@ const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const bigPictureLikes = bigPicture.querySelector('.likes-count');
 const bigPictureCommentsCounter = bigPicture.querySelector('.comments-count');
 const bigPictureCommentList = bigPicture.querySelector('.social__comments');
-let displayedComments = 0;
+let displayedComments = 5;
 const closeElement = bigPicture.querySelector('#picture-cancel');
 let commentsList;
 const commentLoader = bigPicture.querySelector('.comments-loader');
@@ -54,10 +54,7 @@ const insertComments = (comments) => {
 };
 
 const sliceComments = (comments) => {
-  const slisedComments = comments.slice(
-    displayedComments,
-    displayedComments + 5
-  );
+  const slisedComments = comments.slice(0, displayedComments);
   console.log(comments);
   console.log(slisedComments);
   console.log(displayedComments);
@@ -65,11 +62,6 @@ const sliceComments = (comments) => {
 };
 const countDisplayedComments = () => {
   if (displayedComments + 5 >= commentsList.length) {
-    console.log(
-      displayedComments + 5,
-      commentsList.length,
-      displayedComments + 5 >= commentsList.length
-    );
     commentLoader.classList.add('hidden');
     return commentsList.length;
   }
@@ -78,6 +70,7 @@ const countDisplayedComments = () => {
 commentLoader.addEventListener('click', () => {
   displayedComments = countDisplayedComments();
   commentsShowedElement.textContent = displayedComments;
+  bigPictureCommentList.innerHTML = '';
   sliceComments(commentsList);
 });
 
@@ -95,10 +88,10 @@ export const showBigPicture = (picture, url, description, likes, comments) => {
     bigPictureImage.src = url;
     bigPictureLikes.textContent = likes;
     bigPictureCommentsCounter.textContent = comments.length;
-    sliceComments(comments);
     stopBodyMovement();
     commentsList = comments;
-    displayedComments = 0;
+    displayedComments = 5;
+    sliceComments(comments);
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
